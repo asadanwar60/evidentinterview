@@ -2,27 +2,33 @@
   <TableData :columnName="columnName" :sortedData="sortedData">
     <template #col-Slno="value">
       {{ value.column }}
-      <button @click="sortTable('slno')">sort</button>
+      <button @click="sortAscTable('slno')">Asc</button>
+      <button @click="sortDscTable('slno')">Dsc</button>
     </template>
     <template #col-Name="value">
       {{ value.column }}
-      <button @click="sortTable('name')">sort</button>
+      <button @click="sortAscTable('name')">Asc</button>
+      <button @click="sortDscTable('name')">Dsc</button>
     </template>
     <template #col-Dob="value">
       {{ value.column }}
-      <button @click="sortTable('dob')">sort</button>
+      <button @click="sortAscTable('dob')">Asc</button>
+      <button @click="sortDscTable('dob')">Dsc</button>
     </template>
     <template #col-Email="value">
       {{ value.column }}
-      <button @click="sortTable('email')">sort</button>
+      <button @click="sortAscTable('email')">Asc</button>
+      <button @click="sortDscTable('email')">Dsc</button>
     </template>
     <template #col-Location="value">
       {{ value.column }}
-      <button @click="sortTable('location')">sort</button>
+      <button @click="sortAscTable('location')">Asc</button>
+      <button @click="sortDscTable('location')">Dsc</button>
     </template>
     <template #col-Phone="value">
       {{ value.column }}
-      <button @click="sortTable('phone')">sort</button>
+      <button @click="sortAscTable('phone')">Asc</button>
+      <button @click="sortDscTable('phone')">Dsc</button>
     </template>
     <template #col-Picture="value">{{ value.column }}</template>
     <template #rows-Slno="value">{{ value.rows.slno }}</template>
@@ -48,7 +54,7 @@ async function getTableData() {
   const responseData = await response.json();
   tableData.value = responseData.results;
   sortedData.value = userData.value;
-  sortTable("slno");
+  sortDscTable("slno");
 }
 
 const userData = computed(() => {
@@ -70,14 +76,14 @@ const columnName = computed(() => {
   );
 });
 
-function sortTable(sortBy) {
-  if (sortedbyDesc.value) {
-    sortedData.value.sort((a, b) => (a[sortBy] < b[sortBy] ? 1 : -1));
-    sortedbyDesc.value = false;
-  } else {
-    sortedData.value.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-    sortedbyDesc.value = true;
-  }
+function sortAscTable(sortBy) {
+  sortedData.value.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
+  sortedbyDesc.value = false;
+}
+
+function sortDscTable(sortBy) {
+  sortedData.value.sort((a, b) => (a[sortBy] < b[sortBy] ? 1 : -1));
+  sortedbyDesc.value = false;
 }
 
 onMounted(() => {
