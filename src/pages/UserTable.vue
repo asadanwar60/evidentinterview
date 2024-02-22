@@ -1,43 +1,14 @@
 <template>
-  <TableData :columnName="columnName" :sortedData="sortedData">
-    <template #col-Slno="value">
-      {{ value.column }}
-      <button @click="sortAscTable('slno')">Asc</button>
-      <button @click="sortDscTable('slno')">Dsc</button>
+  <TableData
+    :columnName="columnName"
+    :sortedData="sortedData"
+    @sortAscTable="sortAscTable"
+    @sortDscTable="sortDscTable"
+    sorting
+  >
+    <template #rows-Picture="value">
+      <img :src="value.rows.picture" />
     </template>
-    <template #col-Name="value">
-      {{ value.column }}
-      <button @click="sortAscTable('name')">Asc</button>
-      <button @click="sortDscTable('name')">Dsc</button>
-    </template>
-    <template #col-Dob="value">
-      {{ value.column }}
-      <button @click="sortAscTable('dob')">Asc</button>
-      <button @click="sortDscTable('dob')">Dsc</button>
-    </template>
-    <template #col-Email="value">
-      {{ value.column }}
-      <button @click="sortAscTable('email')">Asc</button>
-      <button @click="sortDscTable('email')">Dsc</button>
-    </template>
-    <template #col-Location="value">
-      {{ value.column }}
-      <button @click="sortAscTable('location')">Asc</button>
-      <button @click="sortDscTable('location')">Dsc</button>
-    </template>
-    <template #col-Phone="value">
-      {{ value.column }}
-      <button @click="sortAscTable('phone')">Asc</button>
-      <button @click="sortDscTable('phone')">Dsc</button>
-    </template>
-    <template #col-Picture="value">{{ value.column }}</template>
-    <template #rows-Slno="value">{{ value.rows.slno }}</template>
-    <template #rows-Name="value">{{ value.rows.name }}</template>
-    <template #rows-Dob="value">{{ value.rows.dob }}</template>
-    <template #rows-Email="value">{{ value.rows.email }}</template>
-    <template #rows-Location="value">{{ value.rows.location }}</template>
-    <template #rows-Phone="value">{{ value.rows.phone }}</template>
-    <template #rows-Picture="value"><img :src="value.rows.picture" /></template>
   </TableData>
 </template>
 
@@ -47,7 +18,6 @@ import TableData from "@/components/TableData.vue";
 
 const tableData = ref([]);
 const sortedData = ref([]);
-const sortedbyDesc = ref(true);
 
 async function getTableData() {
   const response = await fetch("https://randomuser.me/api/?results=50");
@@ -78,12 +48,10 @@ const columnName = computed(() => {
 
 function sortAscTable(sortBy) {
   sortedData.value.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-  sortedbyDesc.value = false;
 }
 
 function sortDscTable(sortBy) {
   sortedData.value.sort((a, b) => (a[sortBy] < b[sortBy] ? 1 : -1));
-  sortedbyDesc.value = false;
 }
 
 onMounted(() => {

@@ -2,7 +2,22 @@
   <table>
     <tr>
       <th v-for="item of columnName" :key="item.index">
-        <slot :name="`col-${item}`" :column="item"></slot>
+        <slot :name="`col-${item}`" :column="item">{{ item }}</slot>
+
+        <button
+          v-if="sorting"
+          @click="$emit('sortAscTable', item.toLowerCase())"
+        >
+          Asc
+        </button>
+        <button
+          v-if="sorting"
+          @click="$emit('sortDscTable', item.toLowerCase())"
+        >
+          Dsc
+        </button>
+
+        <slot />
       </th>
     </tr>
 
@@ -12,7 +27,7 @@
           :name="`rows-${item}`"
           :rows="rowData"
           :index="rowData.index"
-        ></slot>
+        > {{ rowData[item.toLowerCase()] }}</slot>
       </td>
     </tr>
   </table>
@@ -28,5 +43,6 @@ defineProps({
     type: Array,
     required: true,
   },
+  sorting:Boolean
 });
 </script>
